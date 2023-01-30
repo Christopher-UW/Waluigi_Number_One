@@ -99,12 +99,14 @@ class Waluigi {
     }
 
     update() {
+        // console.log(ENGINE.keys);
         if (this.noButt()) {
             this.setAction('idle');
-            //this.resetAnimations(numsAtoB(1, this.numOfAnima));
+            this.resetAnimations(numsAtoB(1, this.numOfAnima));
         }
+        
         else if (ENGINE.keys.d) {
-            if (ENGINE.keys.n) {
+            if (ENGINE.keys.k) {
                 this.setAction('run');
                 this.setFacing('right');
             } else {
@@ -114,7 +116,7 @@ class Waluigi {
 
         }
         else if (ENGINE.keys.a) {
-            if (ENGINE.keys.n) {
+            if (ENGINE.keys.k) {
                 this.setAction('run');
                 this.setFacing('left');
             } else {
@@ -136,7 +138,7 @@ class Waluigi {
 
     noButt() {
         return !(
-            ENGINE.keys.q || ENGINE.keys.w || ENGINE.keys.e ||
+            ENGINE.keys.k || ENGINE.keys.w || ENGINE.keys.e ||
             ENGINE.keys.a || ENGINE.keys.s || ENGINE.keys.d);
     }
 }

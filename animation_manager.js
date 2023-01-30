@@ -415,6 +415,7 @@ class Animation {
         if (!(new_x_offset_s === undefined)) {spriteSetClone.set_x_offsets(new_x_offset_s);}
         if (!(new_x_offset_a === undefined)) {this.x_offset = new_x_offset_a;}
         this.spriteSet = spriteSetClone;
+        this.init();
         
     }
 

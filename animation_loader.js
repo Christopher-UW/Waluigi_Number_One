@@ -60,6 +60,7 @@ class AnimationLoader { // plan to replace with JSON loader
             -50, 5
         );
         ANIMANAGER.cloneAnimation('waluigi_smash_left', 'waluigi_smash_right').mirrorAnimation_Horz([0, 0, 0, -15, -18, -15], -10);
+        // ANIMANAGER.getAnimation('waluigi_smash_left').x_offset = -100;
         // // // // // // // // // // // // // // // // // // // // // // // // // // // //
         // - power_smack -
         ANIMANAGER.addSpriteSet(
