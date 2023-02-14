@@ -55,10 +55,10 @@ class Background {
     }
 
     draw(ctx) {
-        ANIMANAGER.getSpriteSet('SET_background').tileSprite(ctx, 2, this.farBack_X, this.farBack_Y, 5, 1, this.bgTileScale); // far
-        ANIMANAGER.getSpriteSet('SET_background').tileSprite(ctx, 1, this.medBack_X, this.medBack_Y, 5, 1, this.bgTileScale); // mid
-        ANIMANAGER.getSpriteSet('SET_background').tileSprite(ctx, 0, this.nerBack_X, this.nerBack_Y, 5, 1, this.bgTileScale); // close
+        GRAPHICS.get('SET_background').tileSprite(ctx, 2, this.farBack_X, this.farBack_Y, 5, 1, this.bgTileScale); // far
+        GRAPHICS.get('SET_background').tileSprite(ctx, 1, this.medBack_X, this.medBack_Y, 5, 1, this.bgTileScale); // mid
+        GRAPHICS.get('SET_background').tileSprite(ctx, 0, this.nerBack_X, this.nerBack_Y, 5, 1, this.bgTileScale); // close
 
-        ANIMANAGER.getSpriteSet('SET_stone_path').tileSprite(ctx, 0, this.road_X, this.road_Y, 5, 1, this.roadScale); // road
+        GRAPHICS.get('SET_stone_path').tileSprite(ctx, 0, this.road_X, this.road_Y, 5, 1, this.roadScale); // road
     }
 }

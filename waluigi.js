@@ -29,28 +29,28 @@ class Waluigi {
         this.myAnimations = Array(this.numOfAnima); 
         // inner array is for direction
         this.myAnimations[0] = [ // idle
-            ANIMANAGER.getAnimation('waluigi_idle_right'),
-            ANIMANAGER.getAnimation('waluigi_idle_left')
+            GRAPHICS.get('waluigi_idle_right'),
+            GRAPHICS.get('waluigi_idle_left')
         ];
 
         this.myAnimations[1] = [ // walk
-            ANIMANAGER.getAnimation('waluigi_walk_right'),
-            ANIMANAGER.getAnimation('waluigi_walk_left')
+            GRAPHICS.get('waluigi_walk_right'),
+            GRAPHICS.get('waluigi_walk_left')
         ];
 
         this.myAnimations[2] = [ // run
-        ANIMANAGER.getAnimation('waluigi_run_right'),
-        ANIMANAGER.getAnimation('waluigi_run_left')
+        GRAPHICS.get('waluigi_run_right'),
+        GRAPHICS.get('waluigi_run_left')
         ];
         
         this.myAnimations[3] = [ // smash
-            ANIMANAGER.getAnimation('waluigi_smash_right'),
-            ANIMANAGER.getAnimation('waluigi_smash_left')
+            GRAPHICS.get('waluigi_smash_right'),
+            GRAPHICS.get('waluigi_smash_left')
         ];
 
         this.myAnimations[4] = [ // power_smack
-        ANIMANAGER.getAnimation('waluigi_power_smack_right'),
-        ANIMANAGER.getAnimation('waluigi_power_smack_left')
+        GRAPHICS.get('waluigi_power_smack_right'),
+        GRAPHICS.get('waluigi_power_smack_left')
     ];
 
     }
@@ -130,10 +130,9 @@ class Waluigi {
     }
 
     draw(ctx) {
-        this.myAnimations[this.action][this.facing].animateSprite(
+        this.myAnimations[this.action][this.facing].animate (
             ENGINE.clockTick, ctx, this.x, this.y, this.xScale, this.yScale
         );
-
     }
 
     noButt() {
