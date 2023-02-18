@@ -454,8 +454,8 @@ class GraphicsManager {
      * @param {string} orig_id
      * @returns Animation clone 
      */
-    cloneAnimation(clone_id, orig_id) {
-        const clonedAnimation = this.getAnimation(orig_id).clone(clone_id);
+    cloneAnimation(clone_id, orig_id, clone_x_offset, clone_y_offset) {
+        const clonedAnimation = this.getAnimation(orig_id).clone(clone_id, clone_x_offset, clone_y_offset);
         this.add(clone_id, 'Animation', clonedAnimation);
         return clonedAnimation;
     }

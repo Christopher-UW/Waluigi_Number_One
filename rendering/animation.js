@@ -36,10 +36,10 @@ class Animation {
         return this;
     }
 
-    clone(clones_id) {
+    clone(clones_id, clone_x_offset = this.x_offset, clone_y_offset = this.y_offset) {
         const copy_sprites = this.spriteSet.clone(this.spriteSet.id.concat("_clone"))
         const copy_anima = new Animation(clones_id, copy_sprites,
-            [...this.fSequence], [...this.fTiming], this.x_offset, this.y_offset);
+            [...this.fSequence], [...this.fTiming], clone_x_offset, clone_y_offset);
         return copy_anima;
     }
 
@@ -107,7 +107,7 @@ class Animation {
         //console.log(this.spriteSet)
         let frameNum = this.calcFrame();
         //console.log(frameNum)
-        this.spriteSet.drawSprite(frameNum, ctx, dx + this.x_offset_mod, dy + this.y_offset_mod, xScale, yScale)
+        this.spriteSet.drawSprite(frameNum, ctx, dx + this.x_offset_mod * xScale, dy + this.y_offset_mod * yScale, xScale, yScale)
         
         if (0) {
             ctx.lineWidth = 1;

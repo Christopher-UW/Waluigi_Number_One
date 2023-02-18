@@ -18,6 +18,8 @@ class LevelManager {
     createLevel(theEntities) {
 
     }
+
+    inputLayer 
 }
 
 /** Stores things that are specific to one particular level. */

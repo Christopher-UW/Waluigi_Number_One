@@ -8,16 +8,16 @@ class GraphicsLoader {
         GRAPHICS.addSpriteSheet('STONE_PATH', ASSET_LOADER.getAsset('stones.png'));
         GRAPHICS.addSpriteSingle('SET_stone_path', 'STONE_PATH', 0, 0, 960, 306);
         
-        // // // //  W A L U I G I  •  A N I M A T I O N S  // // // // // // // // // // // //
-        // - Idle -
+        // // // //  W A L U I G I  •  A N I M A T I O N S  // // // // // // // // // // // //=
         GRAPHICS.addSpriteSheet('WALUIGI', ASSET_LOADER.getAsset('waluigi_sprites.png'));
-
+        // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+        // - Idle -
         GRAPHICS.addSpriteSet('SET_waluigi_idle_LR', 'WALUIGI',
             [ 3, 33, 65, 99], 2,
             [28, 29, 33, 30], 50,
             [0, -1, -2, -1]
         );
-        GRAPHICS.addAnimation('waluigi_idle_right', 'SET_waluigi_idle_LR', [0,1,2,1], 0.4, 2, -12);
+        GRAPHICS.addAnimation('waluigi_idle_right', 'SET_waluigi_idle_LR', [0,1,2,1], 0.4, 0, -4);
         GRAPHICS.cloneAnimation('waluigi_idle_left', 'waluigi_idle_right').mirrorAnimation_Horz([0,0,-3,0]);
         // // // // // // // // // // // // // // // // // // // // // // // // // // // //
         // - Walk -
@@ -37,36 +37,69 @@ class GraphicsLoader {
         GRAPHICS.addAnimation('waluigi_run_right', 'SET_waluigi_run_LR', 8, 0.12);
         GRAPHICS.cloneAnimation('waluigi_run_left', 'waluigi_run_right').mirrorAnimation_Horz();
 
-        
-        // OLD addSpriteSet(id, spriteSheet, x_origs, x_ends, y_origs, y_ends, x_offsets = 0, y_offsets = 0)
+        // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+        // - hammer down -
+        GRAPHICS.addSpriteSet('SET_waluigi_hammer_down_LR', 'WALUIGI',
+            [ 6,  66, 132, 178, 242, 301, 687], [418, 417, 398, 422, 422, 421, 216],
+            [53,  57,  37,  55,  58,  55,  64], [ 44,  45,  64,  40,  40,  41,  45],
+            [0,   -4,  16,  15,  15,  15,  15], [  0,  -1, -20,   3,   3,   3,   0]
+        );
+        GRAPHICS.addAnimation('waluigi_hammer_down_right', 'SET_waluigi_hammer_down_LR',
+            [   0,    1,    2,    3,    4,    5,    2,    1],
+            [0.12, 0.12, 0.10, 0.10, 0.10, 0.25, 0.12, 0.18],
+            -28, 2
+        );
+        GRAPHICS.cloneAnimation('waluigi_hammer_down_left', 'waluigi_hammer_down_right', 3).mirrorAnimation_Horz([0, 0, 0, -15, -18, -15, -15]);
+
+        // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+        // - hammer up -
+        GRAPHICS.addSpriteSet('SET_waluigi_hammer_up_LR', 'WALUIGI',
+            [288, 333, 383, 439, 492, 542], [225, 226, 225, 214, 214, 225],
+            [ 38,  37,  50,  46,  37,  43], [ 45,  44,  45,  56,  56,  45],
+            [  0,   1,   1,   1,   1,   1], [  0,   1,   0, -11, -11,   0]
+        );
+        GRAPHICS.addAnimation('waluigi_hammer_up_right', 'SET_waluigi_hammer_up_LR',
+            [   0,    1,    2,    3,    4,    5,    2,    1],
+            [0.20, 0.08, 0.05, 0.08, 0.25, 0.05, 0.05, 0.05],
+            -13, 1
+        );
+        GRAPHICS.cloneAnimation('waluigi_hammer_up_left', 'waluigi_hammer_up_right', 3)
+            .mirrorAnimation_Horz([0, 0, -13, -9, 0, -6]); //.setAnimaSpeed(100);
+
         // addSpriteSet(id, spriteSheet, x_origs, y_origs, widths, heights, x_ofs = 0, y_ofs = 0, labels)
         // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-        // - Smash -
-        GRAPHICS.addSpriteSet('SET_waluigi_smash_LR', 'WALUIGI',
-            [ 6,  66, 132, 178, 242, 301], [418, 417, 398, 422, 422, 421],
-            [53,  57,  37,  55,  58,  55], [ 44,  45,  64,  40,  40,  41],
-            [0,   -4,  16,  15,  15,  15], [  0,  -1, -20,   3,   3,   3]
-        );
-        GRAPHICS.addAnimation('waluigi_smash_right', 'SET_waluigi_smash_LR',
-            [   0,    1,    2,    3,    4,    5,    4,    5,    2,    1],
-            [0.12, 0.12, 0.10, 0.10, 0.05, 0.05, 0.05, 0.15, 0.12, 0.12],
-            -50, 5
-        );
-        GRAPHICS.cloneAnimation('waluigi_smash_left', 'waluigi_smash_right').mirrorAnimation_Horz(); //mirrorAnimation_Horz([0, 0, 0, -15, -18, -15], -10)
-        // GRAPHICS.getAnimation('waluigi_smash_left').x_offset = -100;
-        // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-        // - power_smack -
+        // - Side hammer-
         GRAPHICS.addSpriteSet(
-            'SET_waluigi_power_smack_LR', 'WALUIGI',
-            [14, 59, 104, 168, 222, 275, 328, 390, 454],
-            [52, 96, 165, 214, 263, 322, 374, 444, 497],
-            331, 394,
-            [0, 1, 1, 1, -3, -3, 1, 2, 0]
+            'SET_waluigi_side_hammer_LR', 'WALUIGI',
+            [14, 59, 104, 168, 222], [346, 346, 346, 346, 346],
+            [38, 37,  61,  46,  41], 45,
+            [ 0,  1,   1,   1,  -3], 0
         );
-        GRAPHICS.addAnimation('waluigi_power_smack_right', 'SET_waluigi_power_smack_LR', 9, 0.6);
-        GRAPHICS.cloneAnimation('waluigi_power_smack_left', 'waluigi_power_smack_right').mirrorAnimation_Horz();
+        GRAPHICS.addAnimation('waluigi_side_hammer_right', 'SET_waluigi_side_hammer_LR',
+            [   0,    1,    2,    3,    4,    0], 
+             0.4 // [0.11, 0.11, 0.11, 0.11, 0.11, 0.11]
+        );
+        GRAPHICS.cloneAnimation('waluigi_side_hammer_left', 'waluigi_side_hammer_right').mirrorAnimation_Horz([]);
+
         // // // // // // // // // // // // // // // // // // // // // // // // // // // //
-        // - x -
+        // - jump smash -
+        GRAPHICS.addSpriteSet(
+            'SET_waluigi_jump_smash', 'WALUIGI',
+            [275, 328, 390, 454], [339, 331, 343, 345],
+            [ 47,  46,  54,  43], [ 45,  54,  45,  49],
+            [-11,   1,   2,   0], [-12, -20, -20, -20]
+        );
+
+        // // // // // // // // // // // // // // // // // // // // // // // // // // // //
+        // - E X T R A -
+        GRAPHICS.addSpriteSet(
+            'SET_waluigi_jump_smash', 'WALUIGI',
+            [687], [216],
+            [ 64], [ 45],
+            [  0], [  0]
+        );
+
+
     }
 
     /*

@@ -10,12 +10,14 @@ class Waluigi {
 
         this.numOfAnima = 5;
         this.setUpAnimations();
-        
-
+    
         this.x = 400;
         this.y = 440;
         this.xScale = 3;
         this.yScale = 3;
+
+        this.down = 0;
+        this.up = 0;
 
         this.speed = 5;
     }
@@ -44,13 +46,17 @@ class Waluigi {
         ];
         
         this.myAnimations[3] = [ // smash
-            GRAPHICS.get('waluigi_smash_right'),
-            GRAPHICS.get('waluigi_smash_left')
+            // GRAPHICS.get('waluigi_hammer_down_right'),
+            // GRAPHICS.get('waluigi_hammer_down_left')
+            // GRAPHICS.get('waluigi_hammer_up_right'),
+            // GRAPHICS.get('waluigi_hammer_up_left')
+            GRAPHICS.get('waluigi_side_hammer_right'),
+            GRAPHICS.get('waluigi_side_hammer_left')
         ];
 
         this.myAnimations[4] = [ // power_smack
-        GRAPHICS.get('waluigi_power_smack_right'),
-        GRAPHICS.get('waluigi_power_smack_left')
+        // GRAPHICS.get('waluigi_power_smack_right'),
+        // GRAPHICS.get('waluigi_power_smack_left')
     ];
 
     }
@@ -98,8 +104,15 @@ class Waluigi {
         });
     }
 
+    determineState() {
+
+    }
+
     update() {
         // console.log(ENGINE.keys);
+
+
+
         if (this.noButt()) {
             this.setAction('idle');
             this.resetAnimations(numsAtoB(1, this.numOfAnima));
@@ -130,9 +143,22 @@ class Waluigi {
     }
 
     draw(ctx) {
+        // ctx.canvas.addEventListener("keydown", event => {
+        //     console.log(event.key + " down" + this.down++)
+
+        // });
+        // ctx.canvas.addEventListener("keyup", event => {
+        //     console.log(event.key + " up" + this.up++)
+
+        // });
+        //console.log(ENGINE.keys)
+
+
         this.myAnimations[this.action][this.facing].animate (
             ENGINE.clockTick, ctx, this.x, this.y, this.xScale, this.yScale
         );
+
+
     }
 
     noButt() {
