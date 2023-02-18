@@ -8,7 +8,7 @@ class Waluigi {
         this.action = 0 // idle
         this.facing = 0 // right
 
-        this.numOfAnima = 5;
+        this.numOfAnima = 6;
         this.setUpAnimations();
     
         this.x = 400;
@@ -46,18 +46,19 @@ class Waluigi {
         ];
         
         this.myAnimations[3] = [ // smash
-            // GRAPHICS.get('waluigi_hammer_down_right'),
-            // GRAPHICS.get('waluigi_hammer_down_left')
-            // GRAPHICS.get('waluigi_hammer_up_right'),
-            // GRAPHICS.get('waluigi_hammer_up_left')
-            GRAPHICS.get('waluigi_side_hammer_right'),
-            GRAPHICS.get('waluigi_side_hammer_left')
+            GRAPHICS.get('waluigi_hammer_down_right'),
+            GRAPHICS.get('waluigi_hammer_down_left')
         ];
 
         this.myAnimations[4] = [ // power_smack
-        // GRAPHICS.get('waluigi_power_smack_right'),
-        // GRAPHICS.get('waluigi_power_smack_left')
-    ];
+            GRAPHICS.get('waluigi_hammer_up_right'),
+            GRAPHICS.get('waluigi_hammer_up_left')
+        ];
+
+        this.myAnimations[5] = [ // power_smack
+            GRAPHICS.get('waluigi_side_hammer_right'),
+            GRAPHICS.get('waluigi_side_hammer_left')
+        ];
 
     }
 
@@ -104,8 +105,45 @@ class Waluigi {
         });
     }
 
+    /** 
+     *  L = left | R = right | U = up | D = down | A,  B,  X,  Y = face buttons
+     *    [a]        [d]         [w]      [s]     [n] [j] [k] [l]
+     *
+     *  L  = walk left
+     *  R  = walk right
+     *  D  = crouch
+     *  A  = attack (side to side)
+     * 
+     *  B --> Run
+     * 
+     *  L + B = run left
+     *  R + B = run right
+     * 
+     *  U + A = attack up
+     *  D + A = attack down
+     * 
+     *  X --> jump
+     * 
+     *  U + X = jump up
+     *  R + X = jump left
+     *  L + X = jump right
+     * 
+     *  L + A + X = hard attack left
+     *  R + A + X = hard attack right
+     * 
+     *  L + B + X = long jump left
+     *  R + B + X = long jump right
+     * 
+     * 
+     *  L = left | R = right | U = up | D = down | A,  B,  X,  Y = face buttons
+     *    [a]        [d]         [w]      [s]     [n] [j] [k] [l]
+     * 
+     *         // left, right, up, down, A, B, X, Y
+        //                a  d  w  s  n  j  k  l
+        let inputState = [0, 0, 0, 0, 0, 0, 0, 0];
+     */
     determineState() {
-
+        let input = 1
     }
 
     update() {
@@ -118,7 +156,7 @@ class Waluigi {
             this.resetAnimations(numsAtoB(1, this.numOfAnima));
         }
         
-        else if (ENGINE.keys.d) {
+        else if (ENGINE.keys.d ) {
             if (ENGINE.keys.k) {
                 this.setAction('run');
                 this.setFacing('right');

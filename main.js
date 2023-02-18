@@ -2,7 +2,7 @@
 const ENGINE = new GameEngine();
 const ASSET_LOADER = new AssetManager("./assets/");
 const GRAPHICS = new GraphicsManager();
-const LEVELS = new LevelManager();
+const GAME = new GameManager();
 
 ASSET_LOADER.queueDownload("waluigi_sprites.png", "background.png", "stones.png");
 

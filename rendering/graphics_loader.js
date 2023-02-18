@@ -76,10 +76,11 @@ class GraphicsLoader {
             [ 0,  1,   1,   1,  -3], 0
         );
         GRAPHICS.addAnimation('waluigi_side_hammer_right', 'SET_waluigi_side_hammer_LR',
-            [   0,    1,    2,    3,    4,    0], 
-             0.4 // [0.11, 0.11, 0.11, 0.11, 0.11, 0.11]
+            [   0,    1,    2,    3,    4], 
+            [0.25, 0.10, 0.08, 0.08, 0.20],
+            -13, 1
         );
-        GRAPHICS.cloneAnimation('waluigi_side_hammer_left', 'waluigi_side_hammer_right').mirrorAnimation_Horz([]);
+        GRAPHICS.cloneAnimation('waluigi_side_hammer_left', 'waluigi_side_hammer_right', 3).mirrorAnimation_Horz([0, 0, -24, -9, 0]);
 
         // // // // // // // // // // // // // // // // // // // // // // // // // // // //
         // - jump smash -
