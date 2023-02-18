@@ -25,13 +25,15 @@ class Animation {
         this.nextFrameAt = this.fTiming_mod[0] * this.tempo;
         
         this.looping = true;
-        this.isReversed = false;
+        this.reversed = false;
+        this.done = false;
         return this;
     }
 
     reset() {
         this.elapsedTime = 0;
         this.currFrame = 0;
+        this.done = false;
         this.nextFrameAt = this.fTiming_mod[0] * this.tempo;
         return this;
     }
@@ -67,38 +69,39 @@ class Animation {
     getElapsedTime()  {return this.elapsedTime;}
     getNextFrameAt()  {return this.nextFrameAt;}
     isLooping() {return this.looping;}
-    isReversed() {return this.isReversed;}
+    isReversed() {return this.reversed;}
+    isDone() {return this.done;}
     //getFlags() {return {looping: this.looping, reversed: this.reversed}}
 
     getFrameDimensions(log = false) {
         return spriteSet.getSpriteDimensions(this.currFrame, log);
     }
 
-    setLooping(looping) {
-        this.looping = looping;
+    setLooping(the_looping) {
+        this.looping = the_looping;
         return this;
     }
 
-    setAnimaSpeed(animationSpeed) {
-        this.tempo = 100 / animationSpeed;
+    setAnimaSpeed(the_animationSpeed) {
+        this.tempo = 100 / the_animationSpeed;
         return this;
     }
 
     setReverseAnima() {
         this.fTiming_mod.reverse();
         this.fSequence_mod.reverse();
-        this.isReversed = this.isReversed? false : true;
+        this.reversed = this.reversed? false : true;
         return this;
     }
 
     calcFrame() {
-        if (this.elapsedTime >= this.nextFrameAt) {
+        if (!this.done && this.elapsedTime >= this.nextFrameAt ) {
             if (this.currFrame < this.fCount - 1) {
                 this.currFrame++;
                 this.nextFrameAt += this.fTiming_mod[this.currFrame] * this.tempo;
             }
             else if (this.looping) this.reset();
-            // else just keep returning the last frame
+            else this.done = true; // will keep returning the last frame if called again
         }
         return this.fSequence_mod[this.currFrame];
     }

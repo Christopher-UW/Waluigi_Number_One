@@ -7,10 +7,13 @@ class Waluigi {
     constructor() {
         this.action = 0 // idle
         this.facing = 0 // right
+        this.dead = false;
 
         this.numOfAnima = 6;
-        this.setUpAnimations();
-    
+        this.loadAnimations();
+        this.attacking = false;
+        this.moving = false;
+
         this.x = 400;
         this.y = 440;
         this.xScale = 3;
@@ -19,10 +22,16 @@ class Waluigi {
         this.down = 0;
         this.up = 0;
 
-        this.speed = 5;
+        this.walk_speed = 105;
+        this.run_speed = 800;
     }
 
-    setUpAnimations() {
+    die() {
+        this.dead = true;
+
+    }
+
+    loadAnimations() {
         /* [ idle right  |  idle left ] *
          * [ run right   |  run left  ] *
          * [ smash right | smash left ] */
@@ -45,19 +54,19 @@ class Waluigi {
         GRAPHICS.get('waluigi_run_left')
         ];
         
-        this.myAnimations[3] = [ // smash
-            GRAPHICS.get('waluigi_hammer_down_right'),
-            GRAPHICS.get('waluigi_hammer_down_left')
+        this.myAnimations[3] = [ // hammer down
+            GRAPHICS.get('waluigi_hammer_down_right').setLooping(false),
+            GRAPHICS.get('waluigi_hammer_down_left').setLooping(false)
         ];
 
-        this.myAnimations[4] = [ // power_smack
-            GRAPHICS.get('waluigi_hammer_up_right'),
-            GRAPHICS.get('waluigi_hammer_up_left')
+        this.myAnimations[4] = [ // hammer up
+            GRAPHICS.get('waluigi_hammer_up_right').setLooping(false),
+            GRAPHICS.get('waluigi_hammer_up_left').setLooping(false)
         ];
 
-        this.myAnimations[5] = [ // power_smack
-            GRAPHICS.get('waluigi_side_hammer_right'),
-            GRAPHICS.get('waluigi_side_hammer_left')
+        this.myAnimations[5] = [ // hammer swipe
+            GRAPHICS.get('waluigi_hammer_side_right').setLooping(false),
+            GRAPHICS.get('waluigi_hammer_side_left').setLooping(false)
         ];
 
     }
@@ -80,17 +89,32 @@ class Waluigi {
                 break;
             case 'walk':
                 this.action = 1;
+                this.move(this.walk_speed);
+                this.moving = true;
                 break;
             case 'run':
                 this.action = 2;
+                this.move(this.run_speed);
+                this.moving = true;
                 break;
-            case 'smash':
+            case 'hammer_down':  // try moving 'this.actionInProgress = true' above this line
                 this.action = 3;
+                this.attacking = true;
                 break;
-            case 'power_smack':
+            case 'hammer_up':
                 this.action = 4;
+                this.attacking = true;
+                break;
+            case 'hammer_side':
+                this.action = 5;
+                this.attacking = true;
                 break;
         }
+    }
+
+    move(speed) {
+        let direction = this.facing === 0? 1 : -1
+        GAME.updateCam(speed * direction, 0);
     }
 
     resetAllAnimations() {
@@ -99,7 +123,7 @@ class Waluigi {
         });
     }
 
-    resetAnimations(theAnimations) {
+    resetAnimations(...theAnimations) {
         theAnimations.forEach(index => {
             this.myAnimations[index].forEach(facing_arr => facing_arr.reset())
         });
@@ -138,70 +162,79 @@ class Waluigi {
      *  L = left | R = right | U = up | D = down | A,  B,  X,  Y = face buttons
      *    [a]        [d]         [w]      [s]     [n] [j] [k] [l]
      * 
-     *         // left, right, up, down, A, B, X, Y
-        //                a  d  w  s  n  j  k  l
-        let inputState = [0, 0, 0, 0, 0, 0, 0, 0];
+     *         
+     *                    a  d  w  s  n  j  k  l     A: run   B: attack   X: jump
+     *  let inputState = [0, 0, 0, 0, 0, 0, 0, 0];
+     *  left[0] right[1] up[2] down[3] A[4] B[5] X[6] Y[7]
      */
-    determineState() {
-        let input = 1
-    }
-
     update() {
-        // console.log(ENGINE.keys);
-
-
-
-        if (this.noButt()) {
-            this.setAction('idle');
-            this.resetAnimations(numsAtoB(1, this.numOfAnima));
-        }
-        
-        else if (ENGINE.keys.d ) {
-            if (ENGINE.keys.k) {
-                this.setAction('run');
-                this.setFacing('right');
-            } else {
-                this.setAction('walk');
-                this.setFacing('right');
+        if (!GAME.running) return;
+        if (this.attacking) {
+            let currAnima = this.myAnimations[this.action][this.facing];
+            if (currAnima.isDone()) {
+                currAnima.reset();
+                this.attacking = false;
             }
-
+            else return;
         }
-        else if (ENGINE.keys.a) {
-            if (ENGINE.keys.k) {
-                this.setAction('run');
-                this.setFacing('left');
-            } else {
-                this.setAction('walk');
-                this.setFacing('left');
+
+        let i = GAME.getInputState();
+
+        // attack!
+        if (i[3]) {this.setAction('hammer_down');}
+        else if (i[2]) {this.setAction('hammer_up')}
+        else if (i[5]) {this.setAction('hammer_side')}
+
+        else if (i[0]) { // moving left
+            this.setFacing('left')
+            if(i[4]) {
+                this.setAction('run')
+
+            }
+            else {
+                this.setAction('walk')
             }
         }
-        else if (ENGINE.keys.s) {
-            this.setAction('smash');
+        else if (i[1]) { // moving right
+            this.setFacing('right');
+            if(i[4]) {
+                this.setAction('run')
+            }
+            else {
+                this.setAction('walk')
+            }
         }
+        else {
+            if (this.moving = true) {
+                this.resetAnimations(1,2);
+                this.moving = false;
+            }
+            this.setAction('idle')
+        }
+        // else if (i[0]) {
+        //     this.setFacing('left')
+        // }
+        // else if (i[3]) {
+        //     //crouch 
+        // }
+        // else if (i[4]) {
+
+        // }
     }
 
     draw(ctx) {
-        // ctx.canvas.addEventListener("keydown", event => {
-        //     console.log(event.key + " down" + this.down++)
+        if(this.dead) return
+        // if(this.action === 1) {
+        //     if (this.facing === 0) {
+        //         GAME.cam_x++;
+        //         this.x++
+        //     } else{
+        //         GAME.cam_x--;
+        //         this.x--;
+        //     }
 
-        // });
-        // ctx.canvas.addEventListener("keyup", event => {
-        //     console.log(event.key + " up" + this.up++)
-
-        // });
-        //console.log(ENGINE.keys)
-
-
-        this.myAnimations[this.action][this.facing].animate (
-            ENGINE.clockTick, ctx, this.x, this.y, this.xScale, this.yScale
-        );
-
-
-    }
-
-    noButt() {
-        return !(
-            ENGINE.keys.k || ENGINE.keys.w || ENGINE.keys.e ||
-            ENGINE.keys.a || ENGINE.keys.s || ENGINE.keys.d);
+        // }
+        let anima = this.myAnimations[this.action][this.facing]
+        anima.animate(ENGINE.clockTick, ctx, this.x, this.y, this.xScale, this.yScale);
     }
 }

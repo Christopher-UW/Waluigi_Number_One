@@ -289,7 +289,7 @@ class GraphicsManager {
             widths, heights,  // widths, heights
             0, gaps,          // row_gaps, col_gaps
             x_ofs, y_ofs,     // x_ofs, y_ofs
-            true, true, labels
+            labels
         );
     }
     
@@ -321,7 +321,7 @@ class GraphicsManager {
             widths, heights,  // widths, heights
             gaps, 0,          // row_gaps, col_gaps
             x_ofs, y_ofs,     // x_ofs, y_ofs
-            false, false, labels
+            labels
         );
     }
 

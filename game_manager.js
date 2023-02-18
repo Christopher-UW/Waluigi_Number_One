@@ -9,50 +9,34 @@
  */
 class GameManager {
     constructor() {
-        this.levels = new Map(); // <string: id, object: Level>
+        this.cam_x = 0;
+        this.cam_y = 0; // unused for now
+        
         this.playerHealth = 10;
         this.playerLives = 3;
+
+        this.running = true;
+
+    }
+    
+    init(the_ctx) {
+        this.ctx = the_ctx
+        this.interface = new Interface();
+        ENGINE.addEntity(this.interface);
         this.player = new Waluigi();
+        ENGINE.addEntity(this.player);
+        this.enemy = new Enemy(2000, 435);
+
+        this.loadLevel();
     }
 
-    createLevel(theEntities) {
-
+    loadLevel() { // the one and only level so far
+        ENGINE.addEntity(this.enemy);
+        ENGINE.addEntity(new Background());
+        
     }
 
-    /** 
-     *  L = left | R = right | U = up | D = down | A,  B,  X,  Y = face buttons
-     *    [a]        [d]         [w]      [s]     [n] [j] [k] [l]
-     *
-     *  L  = walk left
-     *  R  = walk right
-     *  D  = crouch
-     *  A  = attack (side to side)
-     * 
-     *  B --> Run
-     * 
-     *  L + B = run left
-     *  R + B = run right
-     * 
-     *  U + A = attack up
-     *  D + A = attack down
-     * 
-     *  X --> jump
-     * 
-     *  U + X = jump up
-     *  R + X = jump left
-     *  L + X = jump right
-     * 
-     *  L + A + X = hard attack left
-     *  R + A + X = hard attack right
-     * 
-     *  L + B + X = long jump left
-     *  R + B + X = long jump right
-     * 
-     * 
-     *  L = left | R = right | U = up | D = down | A,  B,  X,  Y = face buttons
-     *    [a]        [d]         [w]      [s]     [n] [j] [k] [l]
-     */
-    inputLayer() {
+    getInputState() {
         // keys we care about are:
         //                a  d  w  s  n  j  k  l
         let inputState = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -65,20 +49,68 @@ class GameManager {
         if(ENGINE.keys.k) inputState[6] = 1; // X
         if(ENGINE.keys.l) inputState[7] = 1; // Y
 
+
         return inputState;
     }
-}
 
-/** Stores things that are specific to one particular level. */
-class Level {
-    constructor(theEntities) {
-        this.cam_Xpos = 0;
-        this.cam_Ypos = 0; // unused for now
-        this.cam_Xvel = 0;
-        this.cam_Yvel = 0; // unused for now
+    updateCam(deltaX, deltaY = 0) {
+        this.cam_x += deltaX * ENGINE.clockTick;
+        this.cam_y += deltaY * ENGINE.clockTick;
+    }
 
-        this.entities = theEntities;
+    addKill() {
+        this.interface.kills++;
+        if (this.interface.kills > 0) {
+            this.interface.winner = true;
+            this.win()
+        }
+    }
 
+    gameOver() {
+        this.running = false;
+        this.player.die();
+        this.enemy.stop();
+        this.interface.loose = true;
+    }
 
+    win() {
+        this.running = false;
+        this.enemy.stop();
     }
 }
+
+class Interface {
+    constructor() {
+        this.loose = false;
+        this.winner = false;
+        this.kills = 0;
+
+    }
+    update() {}
+
+    draw(ctx) {
+        if (this.loose) {
+            ctx.lineWidth = 1;
+            ctx.fillStyle = "rgba(100, 220, 255, 1)";
+            ctx.strokeStyle = "rgba(50, 255, 50, 0.8)";
+            ctx.font = '120px monospace';
+            ctx.fillText("YOU DIED", 200, 200);
+            ctx.fillText("GAME OVER", 200, 400);
+        }
+        if (this.winner) {
+            ctx.lineWidth = 1;
+            ctx.fillStyle = "rgba(100, 220, 255, 1)";
+            ctx.strokeStyle = "rgba(50, 255, 50, 0.8)";
+            ctx.font = '120px monospace';
+            ctx.fillText("YOU WIN", 200, 200);
+            ctx.fillText("SCORE = " + this.kills, 200, 400);
+
+        }
+    }
+}
+// /** Stores things that are specific to one particular level. */
+// class Level {
+//     constructor(...theEntities) {
+//         theEntities.forEach(ent => ENGINE.addEntity(ent))
+//     }
+// }
