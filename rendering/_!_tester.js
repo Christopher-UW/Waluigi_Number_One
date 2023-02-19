@@ -3,7 +3,7 @@ const ASSET_LOADER = new AssetManager("../assets/");
 const GRAPHICS = new GraphicsManager();
 const SCALE = 5;
 
-ASSET_LOADER.queueDownload("background.png", "stones.png", "waluigi_sprites.png", "enemies.png", "tlink.png", "death_effects.png");
+ASSET_LOADER.queueDownload("background.png", "stones.png", "waluigi_sprites.png");
 
 ASSET_LOADER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
@@ -19,14 +19,10 @@ ASSET_LOADER.downloadAll(() => {
 });
 
 function loader() { 
-    GRAPHICS.addSpriteSheet('ENEMIES', ASSET_LOADER.getAsset('enemies.png'));
-    GRAPHICS.addSpriteSheet('DEATHFX', ASSET_LOADER.getAsset('death_effects.png'));
 //  addSpriteRow(id, spriteSheet, sprite_count, x_orig, y_orig, widths, heights, gaps, x_ofs, y_ofs
 //  addSpriteGrid( id, spriteSheet, row_count, col_count, x_orig, y_orig, widths, heights, row_gaps, col_gaps, x_ofs, y_ofs, labels) {
 //  addSpriteSet(id, spriteSheet, x_origs, y_origs, widths, heights, x_ofs = 0, y_ofs = 0, labels)
 //  addSprite(spriteSheet, sx, sy, sWidth, sHeight, x_ofs, y_ofs, label) {
-
-
 
 }// addAnimation(id, spriteSetName, fSequence, fTiming, x_offset = 0, y_offset = 0)
 
