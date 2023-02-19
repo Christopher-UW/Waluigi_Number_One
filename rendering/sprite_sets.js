@@ -14,11 +14,6 @@ class SpriteSet {
     getSprites() {return this.sprites};
     getSpriteDim(sKey) {return [this.sprites[sKey].sWidth, this.sprites[sKey].sHeight];}
 
-    // spriteIngester(spriteSheet, count, sx_s, sy_s, sWidth_s, sHeight_s, x_ofs, y_ofs) {
-    //     for (let i = 0; i < count; i++)
-    //         addSprite(spriteSheet, sx_s[i], sy_s[i], sWidth_s[i], sHeight_s[i], x_ofs[i], y_ofs[i])
-    // }
-
     addSprite(spriteSheet, sx, sy, sWidth, sHeight, x_ofs, y_ofs, label) {
         this.sprites.push(new Sprite(spriteSheet, sx, sy, sWidth, sHeight, x_ofs, y_ofs, label));
         this.count++;
@@ -69,6 +64,17 @@ class SpriteSet {
 
     /** Horizontally & Vertically mirrors all the sprites in this set. */
     mirrorSet_Both() {this.sprites.forEach(sprite => sprite.mirrorImg(true, true));}
+
+    addDeathFlashes(frameNum = 0) {
+        let redF = this.sprites[frameNum].clone();
+        let whiteF = this.sprites[frameNum].clone();
+        redF.pixelMorph_RGBA(255,null,null,null);
+        whiteF.pixelMorph_RGBA(255,255,255,null);
+        let i = this.count;
+        this.sprites[i-1] = redF;
+        this.count++
+        this.sprites[i] = whiteF;
+    }
 
     drawSprite(sKey, ctx, dx, dy, xScale, yScale) {
         if (sKey >= this.count) return;

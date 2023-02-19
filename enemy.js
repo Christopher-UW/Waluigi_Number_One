@@ -18,14 +18,14 @@ class Enemy {
         if(this.state !== 0) return;
         this.x -= this.vel * ENGINE.clockTick;
         this.delta = this.x - GAME.cam_x - GAME.player.x;
-        if (this.delta < 100) {
+        if (this.delta < 60) {
             if (GAME.player.attacking) {
                 if (GAME.running && this.state != 1) {
                     GAME.addKill();
                     this.state = 1;
                     this.vel = 0;
                 }
-            } else if (this.delta < 20) {
+            } else if (this.delta < 50) {
                 if (GAME.running) GAME.gameOver();
             }
         }

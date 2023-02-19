@@ -94,16 +94,16 @@ class Interface {
             ctx.fillStyle = "rgba(100, 220, 255, 1)";
             ctx.strokeStyle = "rgba(50, 255, 50, 0.8)";
             ctx.font = '120px monospace';
-            ctx.fillText("YOU DIED", 200, 200);
-            ctx.fillText("GAME OVER", 200, 400);
+            ctx.fillText("YOU DIED", 400, 200);
+            ctx.fillText("GAME OVER", 400, 360);
         }
         if (this.winner) {
             ctx.lineWidth = 1;
             ctx.fillStyle = "rgba(100, 220, 255, 1)";
             ctx.strokeStyle = "rgba(50, 255, 50, 0.8)";
             ctx.font = '120px monospace';
-            ctx.fillText("YOU WIN", 200, 200);
-            ctx.fillText("SCORE = " + this.kills, 200, 400);
+            ctx.fillText("YOU WIN!", 500, 250);
+            // ctx.fillText("SCORE = " + this.kills, 200, 400);
 
         }
     }

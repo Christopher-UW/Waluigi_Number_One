@@ -6,7 +6,7 @@ class GraphicsLoader {
 
         // Stone path
         GRAPHICS.addSpriteSheet('STONE_PATH', ASSET_LOADER.getAsset('stones.png'));
-        GRAPHICS.addSpriteSingle('SET_stone_path', 'STONE_PATH', 0, 0, 960, 306);
+        GRAPHICS.addSpriteSet('SET_stone_path', 'STONE_PATH', 0, 0, 960, 306);
         
         // // // //  W A L U I G I  •  A N I M A T I O N S  // // // // // // // // // // // //=
         GRAPHICS.addSpriteSheet('WALUIGI', ASSET_LOADER.getAsset('waluigi_sprites.png'));
